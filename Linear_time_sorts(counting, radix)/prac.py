@@ -1,22 +1,20 @@
-import numpy as np
-import matplotlib.pyplot as plt
+def quicksort(arr,start, end):
+    if start < end:
+        pivot_i = partition(arr,start,end)
+        quicksort(arr,start,pivot_i - 1)
+        quicksort(arr,pivot_i,end)
+    return arr
 
-# 데이터 설정
-n = np.linspace(1, 10, 100)  # x 값 (1부터 10까지)
-O_n = n                      # O(n)
-O_2n = 2 * n                 # O(2n)
+def partition(arr,start,end):
+    pivot = arr[end]
+    right_high = start - 1
+    for i in range(start,end):
+        if arr[i] <= pivot:
+            right_high += 1
+            arr[i], arr[right_high] = arr[right_high], arr[i]
 
-# 그래프 그리기
-plt.figure(figsize=(10, 6))
-plt.plot(n, O_n, label='O(n)', color='blue')
-plt.plot(n, O_2n, label='O(2n)', color='orange', linestyle='--')
-plt.title('Comparison of O(n) and O(2n)')
-plt.xlabel('Input size (n)')
-plt.ylabel('Time Complexity')
-plt.axhline(0, color='black',linewidth=0.5, ls='--')
-plt.axvline(0, color='black',linewidth=0.5, ls='--')
-plt.grid(color = 'gray', linestyle = '--', linewidth = 0.5)
-plt.legend()
-plt.xlim(0, 10**10)
-plt.ylim(0, 22)
-plt.show()
+    arr[right_high + 1], arr[end] = arr[end], arr[right_high + 1]
+    return right_high + 1
+
+arr = [2,8,7,1,3,5,6,9]
+print(quicksort(arr,0,len(arr) - 1))
